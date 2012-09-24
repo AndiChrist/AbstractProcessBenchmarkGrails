@@ -3,7 +3,7 @@ import abstractprocessbenchmarkgrails.*
 class BootStrap {
 
     def init = { servletContext ->
- // User
+        // User
         def andi = new User(firstName:"Andreas", lastName:"Christ", alias:"ach")
         def michael = new User(firstName:"Michael", lastName:"Kügeler", alias:"mkü")
         andi.save()

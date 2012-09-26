@@ -2,10 +2,9 @@ package abstractprocessbenchmarkgrails
 
 class Session {
 
-    Project project
     Process process
     Date startDate
-    User owner
+    User sessionOwner
     String description
     
     static constraints = {

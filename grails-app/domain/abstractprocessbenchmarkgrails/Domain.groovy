@@ -4,7 +4,7 @@ class Domain {
 
     String name
     
-    static hasMany = [processes:Process, users:User]   
+    static hasMany = [processes:Process]   
     
     static constraints = {
     }

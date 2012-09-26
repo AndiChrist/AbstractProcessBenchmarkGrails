@@ -3,12 +3,19 @@ import abstractprocessbenchmarkgrails.*
 class BootStrap {
 
     def init = { servletContext ->
+
+        // Role
+        def user = new Role(description:"User")
+        user.save()
+        def admin = new Role(description:"Admin")
+        admin.save()
+        
         // User
-        def andi = new User(firstName:"Andreas", lastName:"Christ", alias:"ach")
-        def michael = new User(firstName:"Michael", lastName:"Kügeler", alias:"mkü")
+        def andi = new User(firstName:"Andreas", lastName:"Christ", login:"ach", password:"ach", role:admin)
+        def michael = new User(firstName:"Michael", lastName:"Kügeler", login:"mkü", password:"mkü", role:user)
         andi.save()
         michael.save()
-        new User(firstName:"Andreas", lastName:"Behrens", alias:"abe").save()
+        new User(firstName:"Andreas", lastName:"Behrens", login:"abe", password:"abe", role:user).save()
         
         // System
         def s_file = new System(description:"File")
@@ -129,13 +136,6 @@ class BootStrap {
         l_244.save()
         l_245.save()
 
-        // Role
-        def tester = new Role(description:"Tester")
-        tester.save()
-        new Role(description:"Manager").save()
-        new Role(description:"Controller").save()
-        new Role(description:"Developer").save()
-
         // Service
         def gprs = new Service(description:"GPRS")
         gprs.save()
@@ -143,6 +143,10 @@ class BootStrap {
         // Process
         def ireg = new Process(alias:"IREG", description:"IREG automated")
         ireg.save()
+        new Process(alias:"Process 2", description:"Mega process").save()
+        new Process(alias:"Process 3", description:"Super process").save()
+        new Process(alias:"Process 4", description:"Giga process").save()
+        new Process(alias:"Process 5", description:"Fantastic process").save()
         
         // Project        
         def _project = new Project(owner:michael, description:"Project", creationDate: new Date())
@@ -155,34 +159,40 @@ class BootStrap {
         session_2.save()
         
         // Task
-        new Task(session:session_1, sequence:1, layer1:l_1, layer2:l_11, layer3:l_111, role:tester, user:michael, system:s_file, media:m_file, view:implicit, description:"A", duration:0).save()
-        new Task(session:session_1, sequence:2, layer1:l_1, layer2:l_11, layer3:l_111, role:tester, user:michael, system:s_file, media:m_file, view:implicit, description:"B", duration:0).save()
-        new Task(session:session_1, sequence:3, layer1:l_1, layer2:l_11, layer3:l_112, role:tester, user:michael, system:s_cms, media:m_web, view:implicit, description:"C", duration:0).save()
-        new Task(session:session_1, sequence:4, layer1:l_1, layer2:l_11, layer3:l_113, role:tester, user:michael, system:s_cms, media:m_web, view:implicit, description:"D", duration:0).save()
-        new Task(session:session_1, sequence:5, layer1:l_2, layer2:l_21, layer3:l_211, role:tester, user:michael, system:s_sap, media:m_web, view:implicit, description:"E", duration:0).save()
-        new Task(session:session_1, sequence:6, layer1:l_2, layer2:l_21, layer3:l_212, role:tester, user:michael, system:s_sap, media:m_web, view:implicit, description:"F", duration:0).save()
-        new Task(session:session_1, sequence:7, layer1:l_2, layer2:l_21, layer3:l_213, role:tester, user:michael, system:s_sap, media:m_web, view:implicit, description:"G", duration:0).save()
-        new Task(session:session_1, sequence:8, layer1:l_2, layer2:l_21, layer3:l_214, role:tester, user:michael, system:s_cms, media:m_web, view:implicit, description:"H", duration:0).save()
-        new Task(session:session_1, sequence:9, layer1:l_2, layer2:l_22, layer3:l_221, role:tester, user:michael, system:s_sigos, media:m_web, view:implicit, description:"I", duration:0).save()
-        new Task(session:session_1, sequence:10, layer1:l_2, layer2:l_22, layer3:l_222, role:tester, user:michael, system:s_sigos, media:m_web, view:implicit, description:"J", duration:0).save()
-        new Task(session:session_1, sequence:11, layer1:l_2, layer2:l_22, layer3:l_223, role:tester, user:michael, system:s_sigos, media:m_web, view:implicit, description:"K", duration:0).save()
-        new Task(session:session_1, sequence:12, layer1:l_2, layer2:l_22, layer3:l_224, role:tester, user:michael, system:s_file, media:m_file, view:implicit, description:"L", duration:0).save()
-        new Task(session:session_1, sequence:13, layer1:l_2, layer2:l_22, layer3:l_225, role:tester, user:michael, system:s_sigos, media:m_web, view:implicit, description:"M", duration:0).save()
-        new Task(session:session_1, sequence:14, layer1:l_2, layer2:l_23, layer3:l_231, role:tester, user:michael, system:s_sigos, media:m_web, view:implicit, description:"N", duration:0).save()
-        new Task(session:session_1, sequence:15, layer1:l_2, layer2:l_23, layer3:l_232, role:tester, user:michael, system:s_sigos, media:m_web, view:explicit, description:"O", duration:0).save()
-        new Task(session:session_1, sequence:16, layer1:l_2, layer2:l_23, layer3:l_233, role:tester, user:michael, system:s_sigos, media:m_web, view:implicit, description:"P", duration:0).save()
-        new Task(session:session_1, sequence:17, layer1:l_2, layer2:l_23, layer3:l_234, role:tester, user:michael, system:s_sigos, media:m_web, view:explicit, description:"Q", duration:0).save()
-        new Task(session:session_1, sequence:18, layer1:l_2, layer2:l_23, layer3:l_235, role:tester, user:michael, system:s_sigos, media:m_web, view:implicit, description:"R", duration:0).save()
-        new Task(session:session_1, sequence:19, layer1:l_2, layer2:l_24, layer3:l_241, role:tester, user:michael, system:s_citrix, media:m_web, view:implicit, description:"S", duration:0).save()
-        new Task(session:session_1, sequence:20, layer1:l_2, layer2:l_24, layer3:l_242, role:tester, user:michael, system:s_citrix, media:m_web, view:implicit, description:"T", duration:0).save()
-        new Task(session:session_1, sequence:21, layer1:l_2, layer2:l_24, layer3:l_243, role:tester, user:michael, system:s_citrix, media:m_web, view:implicit, description:"U", duration:0).save()
-        new Task(session:session_1, sequence:22, layer1:l_2, layer2:l_24, layer3:l_244, role:tester, user:michael, system:s_citrix, media:m_web, view:implicit, description:"V", duration:0).save()
-        new Task(session:session_1, sequence:23, layer1:l_2, layer2:l_23, layer3:l_236, role:tester, user:michael, system:s_sigos, media:m_web, view:implicit, description:"W", duration:0).save()
-        new Task(session:session_1, sequence:24, layer1:l_2, layer2:l_23, layer3:l_237, role:tester, user:michael, system:s_sigos, media:m_web, view:implicit, description:"X", duration:0).save()
-        new Task(session:session_1, sequence:25, layer1:l_2, layer2:l_23, layer3:l_238, role:tester, user:michael, system:s_email, media:m_mail, view:implicit, description:"Y", duration:0).save()
-        new Task(session:session_1, sequence:26, layer1:l_2, layer2:l_23, layer3:l_239, role:tester, user:michael, system:s_clarity, media:m_web, view:implicit, description:"Z", duration:0).save()
-        new Task(session:session_1, sequence:27, layer1:l_2, layer2:l_24, layer3:l_245, role:tester, user:michael, system:s_email, media:m_mail, view:explicit, description:"AA", duration:0).save()
-
+        new Task(session:session_1, sequence:1, layer1:l_1, layer2:l_11, layer3:l_111, role:user, user:michael, system:s_file, media:m_file, view:implicit, description:"A").save()
+        new Task(session:session_1, sequence:2, layer1:l_1, layer2:l_11, layer3:l_111, role:user, user:michael, system:s_file, media:m_file, view:implicit, description:"B").save()
+        new Task(session:session_1, sequence:3, layer1:l_1, layer2:l_11, layer3:l_112, role:user, user:michael, system:s_cms, media:m_web, view:implicit, description:"C").save()
+        new Task(session:session_1, sequence:4, layer1:l_1, layer2:l_11, layer3:l_113, role:user, user:michael, system:s_cms, media:m_web, view:implicit, description:"D").save()
+        new Task(session:session_1, sequence:5, layer1:l_2, layer2:l_21, layer3:l_211, role:user, user:michael, system:s_sap, media:m_web, view:implicit, description:"E").save()
+        new Task(session:session_1, sequence:6, layer1:l_2, layer2:l_21, layer3:l_212, role:user, user:michael, system:s_sap, media:m_web, view:implicit, description:"F").save()
+        new Task(session:session_1, sequence:7, layer1:l_2, layer2:l_21, layer3:l_213, role:user, user:michael, system:s_sap, media:m_web, view:implicit, description:"G").save()
+        new Task(session:session_1, sequence:8, layer1:l_2, layer2:l_21, layer3:l_214, role:user, user:michael, system:s_cms, media:m_web, view:implicit, description:"H").save()
+        new Task(session:session_1, sequence:9, layer1:l_2, layer2:l_22, layer3:l_221, role:user, user:michael, system:s_sigos, media:m_web, view:implicit, description:"I").save()
+        new Task(session:session_1, sequence:10, layer1:l_2, layer2:l_22, layer3:l_222, role:user, user:michael, system:s_sigos, media:m_web, view:implicit, description:"J").save()
+        new Task(session:session_1, sequence:11, layer1:l_2, layer2:l_22, layer3:l_223, role:user, user:michael, system:s_sigos, media:m_web, view:implicit, description:"K").save()
+        new Task(session:session_1, sequence:12, layer1:l_2, layer2:l_22, layer3:l_224, role:user, user:michael, system:s_file, media:m_file, view:implicit, description:"L").save()
+        new Task(session:session_1, sequence:13, layer1:l_2, layer2:l_22, layer3:l_225, role:user, user:michael, system:s_sigos, media:m_web, view:implicit, description:"M").save()
+        new Task(session:session_1, sequence:14, layer1:l_2, layer2:l_23, layer3:l_231, role:user, user:michael, system:s_sigos, media:m_web, view:implicit, description:"N").save()
+        new Task(session:session_1, sequence:15, layer1:l_2, layer2:l_23, layer3:l_232, role:user, user:michael, system:s_sigos, media:m_web, view:explicit, description:"O").save()
+        new Task(session:session_1, sequence:16, layer1:l_2, layer2:l_23, layer3:l_233, role:user, user:michael, system:s_sigos, media:m_web, view:implicit, description:"P").save()
+        new Task(session:session_1, sequence:17, layer1:l_2, layer2:l_23, layer3:l_234, role:user, user:michael, system:s_sigos, media:m_web, view:explicit, description:"Q").save()
+        new Task(session:session_1, sequence:18, layer1:l_2, layer2:l_23, layer3:l_235, role:user, user:michael, system:s_sigos, media:m_web, view:implicit, description:"R").save()
+        new Task(session:session_1, sequence:19, layer1:l_2, layer2:l_24, layer3:l_241, role:user, user:michael, system:s_citrix, media:m_web, view:implicit, description:"S").save()
+        new Task(session:session_1, sequence:20, layer1:l_2, layer2:l_24, layer3:l_242, role:user, user:michael, system:s_citrix, media:m_web, view:implicit, description:"T").save()
+        new Task(session:session_1, sequence:21, layer1:l_2, layer2:l_24, layer3:l_243, role:user, user:michael, system:s_citrix, media:m_web, view:implicit, description:"U").save()
+        new Task(session:session_1, sequence:22, layer1:l_2, layer2:l_24, layer3:l_244, role:user, user:michael, system:s_citrix, media:m_web, view:implicit, description:"V").save()
+        new Task(session:session_1, sequence:23, layer1:l_2, layer2:l_23, layer3:l_236, role:user, user:michael, system:s_sigos, media:m_web, view:implicit, description:"W").save()
+        new Task(session:session_1, sequence:24, layer1:l_2, layer2:l_23, layer3:l_237, role:user, user:michael, system:s_sigos, media:m_web, view:implicit, description:"X").save()
+        new Task(session:session_1, sequence:25, layer1:l_2, layer2:l_23, layer3:l_238, role:user, user:michael, system:s_email, media:m_mail, view:implicit, description:"Y").save()
+        new Task(session:session_1, sequence:26, layer1:l_2, layer2:l_23, layer3:l_239, role:user, user:michael, system:s_clarity, media:m_web, view:implicit, description:"Z").save()
+        new Task(session:session_1, sequence:27, layer1:l_2, layer2:l_24, layer3:l_245, role:user, user:michael, system:s_email, media:m_mail, view:explicit, description:"AA").save()
+        
+        
+        // Domain
+        new Domain(name:"Domain 1", Process:ireg, User:michael).save()
+        new Domain(name:"Domain 2", Process:ireg, User:michael).save()
+        new Domain(name:"Domain 3", Process:ireg, User:michael).save()
+        
     }
     def destroy = {
     }

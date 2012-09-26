@@ -13,9 +13,9 @@ class Task {
     Media media
     View view
     String description
-    int duration
     
-
+    static belongsTo = [process:Process]
+    
 //    static constraints = {
 //        layer1(level:1)
 //        layer2(level:2)

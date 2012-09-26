@@ -5,6 +5,8 @@ class Process {
     String alias
     String description
     
+    static hasMany = [tasks:Task]    
+    
     static constraints = {
     }    
     

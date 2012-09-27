@@ -13,7 +13,7 @@ class Process {
     static constraints = {
     }    
     
-    String toString(){
+    String toString() {
         return "${alias}: ${description}"
     }
     

@@ -12,6 +12,12 @@
                   <div class="nav" role="navigation">
                           <ul>
                                   <li><a class="home" href="\${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
+                                  <g:if test="\${session?.user}">
+                                      <li><g:link class="logout" controller="user" action="logout"><g:message code="default.logout.label" args="[entityName]" /></g:link></li>
+                                  </g:if>
+                                  <g:else>
+                                      <li><g:link class="login" controller="user" action="login"><g:message code="default.login.label" args="[entityName]" /></g:link></li>
+                                  </g:else>
                                   <g:if test="\${session?.user?.admin}">
                                     <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
                                   </g:if>

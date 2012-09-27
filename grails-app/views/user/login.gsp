@@ -2,13 +2,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type"
-          content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="layout" content="main" />
     <title>Login</title>
   </head>
   <body>
-    <div class="body">
+    <div id="edit-user" class="content scaffold-edit" role="main">
       <h1>Login</h1>
       <g:if test="${flash.message}">
         <div class="message">${flash.message}</div>
@@ -22,8 +21,7 @@
                   <label for="login">Login:</label>
                 </td>
                 <td valign="top">
-                  <input type="text"
-                         id="login" name="login"/>
+                  <input type="text" id="login" name="login"/>
                 </td>
               </tr>
               <tr class="prop">
@@ -31,8 +29,7 @@
                   <label for="password">Password:</label>
                 </td>
                 <td valign="top">
-                  <input type="password"
-                         id="password" name="password"/>
+                  <input type="password" id="password" name="password"/>
                 </td>
               </tr>
             </tbody>
@@ -40,7 +37,7 @@
         </div>
         <div class="buttons">
           <span class="button">
-            <input type="submit" value="Login" />
+            <input type="submit" value="Login" class="login" />
           </span>
         </div>
       </g:form>

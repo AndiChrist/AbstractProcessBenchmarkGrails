@@ -594,3 +594,25 @@ a.skip {
 	position: absolute;
 	left: -9999px;
 }
+
+/* abstract process benchmark application */
+.nav a.clone {
+	background-image: url(../images/skin/clone.png);
+	background-position: 0.7em center;
+	background-repeat: no-repeat;
+	text-indent: 25px;
+}
+
+.nav a.login, input.login {
+	background-image: url(../images/skin/login.png);
+	background-position: 0.7em center;
+	background-repeat: no-repeat;
+	text-indent: 25px;
+} 
+
+.nav a.logout {
+	background-image: url(../images/skin/Log-Out-icon.png);
+	background-position: 0.7em center;
+	background-repeat: no-repeat;
+	text-indent: 25px;
+} 

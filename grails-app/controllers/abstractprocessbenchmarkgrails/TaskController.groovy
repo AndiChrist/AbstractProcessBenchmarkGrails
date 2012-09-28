@@ -4,12 +4,15 @@ class TaskController {
     
     static scaffold = true
 
-    //def index() { }
-    
-//    def create() {
-//        layer1 = Layer.list(level:1)
-//        layer2 = Layer.list(level:2)
-//        layer3 = Layer.list(level:3)
-//    }
-
+    def beforeInterceptor = [action:this.&auth]
+   
+    def index() {
+        redirect(action: "list")
+    }
+    def auth() {
+        if(!session.user) {
+            redirect(controller:"user", action:"login")
+            return false
+        }
+    }
 }

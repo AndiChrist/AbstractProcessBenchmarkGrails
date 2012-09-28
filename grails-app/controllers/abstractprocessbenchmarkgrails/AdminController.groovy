@@ -13,5 +13,5 @@ class AdminController{
             return false
         }
     }
-    def index = {}
+    def index = {} // do nothing, just display admin/index.gsp
 }

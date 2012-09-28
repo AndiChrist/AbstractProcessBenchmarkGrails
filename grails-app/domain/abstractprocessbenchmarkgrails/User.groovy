@@ -11,6 +11,7 @@ class User {
     static constraints = {
         login(blank:false, nullable:false, unique:true)
         password(blank:false, password:true)
+        lastName()
         //role(inList:["admin", "user"])
     }
     

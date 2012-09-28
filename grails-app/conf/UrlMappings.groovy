@@ -7,7 +7,7 @@ class UrlMappings {
 			}
 		}
 
-		"/"(controller:"domain", action:"list")
+		"/"(controller:"session", action:"list")
 		"500"(view:'/error')
 	}
 }

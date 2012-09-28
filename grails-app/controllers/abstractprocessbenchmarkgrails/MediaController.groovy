@@ -4,5 +4,15 @@ class MediaController {
 
     static scaffold = true
 
-    //def index() { }
+    def beforeInterceptor = [action:this.&auth]
+   
+    def index() {
+        redirect(action: "list")
+    }
+    def auth() {
+        if(!session.user) {
+            redirect(controller:"user", action:"login")
+            return false
+        }
+    }
 }

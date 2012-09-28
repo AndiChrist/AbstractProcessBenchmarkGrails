@@ -9,7 +9,16 @@ class UserController {
     def index() {
         redirect(action: "list", params: params)
     }
-
+    
+//    def beforeInterceptor = [action:this.&auth]
+//   
+//    def auth() {
+//        if(!session.user) {
+//            redirect(controller:"user", action:"login")
+//            return false
+//        }
+//    }
+    
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         [userInstanceList: User.list(params), userInstanceTotal: User.count()]
@@ -108,6 +117,8 @@ class UserController {
     }
     
     def authenticate = { 
+        println("login: ${login}")
+        println("pwd: ${params}")
         def user = User.findByLoginAndPassword(params.login, params.password)
         
         if(user) {
@@ -116,7 +127,7 @@ class UserController {
             if (user.role.description == 'Admin') {
                 redirect(controller:"admin", action:"index")
             } else {
-                redirect(controller:"Domain", action:"list") // redirect to Domain Page
+                redirect(controller:"session", action:"list") // redirect to Session Page
             }
         } else {
             flash.message = "Sorry, ${params.login}. Please try again."

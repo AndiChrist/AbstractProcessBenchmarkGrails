@@ -32,14 +32,16 @@ class SessionController {
         //def tasks = 
     }
 
-//    def filterPaneService
-//    
-//    def filter = {
-//        if(!params.max) params.max = 10
-//        render( view:'list',
-//            model:[ ${propertyName}List: filterPaneService.filter( params, ${className} ),
-//                ${propertyName}Total: filterPaneService.count( params, ${className} ),
-//                filterParams: org.grails.plugin.filterpane.FilterPaneUtils.extractFilterParams(params),
-//                params:params ] )
-//    }
+    def list(Integer max) {
+        params.max = Math.min(max ?: 10, 100)
+
+        def results
+        if (session.user.role.description != Role.ADMIN) {
+            results = Session.findAllBySessionOwner(User.get(session.user.id))
+        } else {
+            results = Session.findAll()
+        }
+        
+        [sessionInstanceList: results, sessionInstanceTotal: results.size()]
+    }
 }

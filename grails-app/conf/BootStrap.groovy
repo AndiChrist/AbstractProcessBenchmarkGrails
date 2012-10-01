@@ -5,17 +5,19 @@ class BootStrap {
     def init = { servletContext ->
 
         // Role
-        def user = new Role(description:"User")
+        def user = new Role(description:Role.USER)
         user.save()
-        def admin = new Role(description:"Admin")
+        def admin = new Role(description:Role.ADMIN)
         admin.save()
         
         // User
         def andi = new User(firstName:"Andreas", lastName:"Christ", login:"ach", password:"ach", role:admin)
-        def michael = new User(firstName:"Michael", lastName:"Kügeler", login:"mkü", password:"mkü", role:user)
+        def michael = new User(firstName:"Michael", lastName:"Kügeler", login:"mku", password:"mku", role:user)
         andi.save()
         michael.save()
         new User(firstName:"Andreas", lastName:"Behrens", login:"abe", password:"abe", role:user).save()
+        new User(firstName:"Peter", lastName:"Wolf", login:"pwo", password:"pwo", role:user).save()
+
         
         // System
         def s_file = new System(description:"File")

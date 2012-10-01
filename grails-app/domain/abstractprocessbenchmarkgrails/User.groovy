@@ -18,7 +18,7 @@ class User {
     static transients = ['admin']
     
     boolean isAdmin(){
-        return role.description == "Admin"
+        return role.description == Role.ADMIN
     }
 
     String toString(){

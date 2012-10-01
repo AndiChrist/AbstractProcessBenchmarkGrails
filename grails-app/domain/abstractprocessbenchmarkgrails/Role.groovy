@@ -1,6 +1,8 @@
 package abstractprocessbenchmarkgrails
 
 class Role {
+    static final String ADMIN = 'Admin' 
+    static final String USER = 'User' 
     
     String description
     

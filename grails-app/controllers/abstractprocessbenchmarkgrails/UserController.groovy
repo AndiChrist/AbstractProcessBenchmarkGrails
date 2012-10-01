@@ -117,14 +117,12 @@ class UserController {
     }
     
     def authenticate = { 
-        println("login: ${login}")
-        println("pwd: ${params}")
         def user = User.findByLoginAndPassword(params.login, params.password)
         
         if(user) {
             session.user = user
             flash.message = "Hello ${user.firstName} (${user.role.description})!"
-            if (user.role.description == 'Admin') {
+            if (user.role.description == Role.ADMIN) {
                 redirect(controller:"admin", action:"index")
             } else {
                 redirect(controller:"session", action:"list") // redirect to Session Page
@@ -143,7 +141,7 @@ class UserController {
             return false
         }
         
-        if (!session.user.role.description == "Admin") {
+        if (!session.user.role.description == Role.ADMIN) {
             flash.message = "Admins only"
             redirect(controller:"User", action:"list")
             return false

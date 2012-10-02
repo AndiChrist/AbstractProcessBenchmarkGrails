@@ -14,6 +14,8 @@ class Task {
     View view
     String description
     
+    static hasMany = [results:Result]   
+    
     String toString(){
         return "${description} (${sequence})"
     }

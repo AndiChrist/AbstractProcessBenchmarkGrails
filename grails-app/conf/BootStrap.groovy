@@ -15,8 +15,10 @@ class BootStrap {
         def michael = new User(firstName:"Michael", lastName:"Kügeler", login:"mku", password:"mku", role:user)
         andi.save()
         michael.save()
-        new User(firstName:"Andreas", lastName:"Behrens", login:"abe", password:"abe", role:user).save()
-        new User(firstName:"Peter", lastName:"Wolf", login:"pwo", password:"pwo", role:user).save()
+        def andreas = new User(firstName:"Andreas", lastName:"Behrens", login:"abe", password:"abe", role:user)
+        andreas.save()
+        def pete = new User(firstName:"Peter", lastName:"Wolf", login:"pwo", password:"pwo", role:user)
+        pete.save()
 
         
         // System
@@ -146,23 +148,31 @@ class BootStrap {
 
         
         // Domain
-        def domain_1 = new Domain(name:"Domain 1")
+        def domain_1 = new Domain(name:"Domain 1",users:[michael,pete])
         domain_1.save()
-
+        def domain_2 = new Domain(name:"Domain 2",users:[michael, andreas])
+        domain_2.save()
+        def domain_3 = new Domain(name:"Domain 3",users:[michael, andreas, pete])
+        domain_3.save()
         
         // Process
         def process_1 = new Process(alias:"IREG", description:"IREG automated", domain:domain_1)
         def process_2 = new Process(alias:"Process 2", description:"Mega process", domain:domain_1)
+        def process_3 = new Process(alias:"Process X", description:"Hyper process", domain:domain_2)
         process_1.save()
         process_2.save()
+        process_3.save()
 
         // Session    
-        def session_1 = new Session(startDate:new Date(), sessionOwner:andi, description:"Session 1", process:process_1)
-        def session_2 = new Session(startDate:new Date(), sessionOwner:michael, description:"Session 2", process:process_1)
+        def session_1 = new Session(startDate:new Date(), sessionOwner:andreas, description:"Session 1", process:process_1)
+        def session_2 = new Session(startDate:new Date(), sessionOwner:andi, description:"Session 2", process:process_1)
         def session_3 = new Session(startDate:new Date(), sessionOwner:michael, description:"Session 3", process:process_1)
         session_1.save()
         session_2.save()
         session_3.save()
+
+        def session_4 = new Session(startDate:new Date(), sessionOwner:michael, description:"Session 4", process:process_2)
+        session_4.save()
         
         // Task (with layer)
 //        new Task(session:session_1, sequence:1, layer1:l_1, layer2:l_11, layer3:l_111, role:user, user:michael, system:s_file, media:m_file, view:implicit, description:"A").save()

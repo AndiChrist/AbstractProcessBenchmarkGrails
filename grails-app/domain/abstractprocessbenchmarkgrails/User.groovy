@@ -8,6 +8,9 @@ class User {
     String password
     Role role
 
+    static hasMany = [domains: Domain]
+    static belongsTo = Domain
+
     static constraints = {
         login(blank:false, nullable:false, unique:true)
         password(blank:false, password:true)
@@ -24,7 +27,5 @@ class User {
     String toString(){
         login
     }
-//    String toString(){
-//        return "${lastName}, ${firstName}"
-//    }
+
 }

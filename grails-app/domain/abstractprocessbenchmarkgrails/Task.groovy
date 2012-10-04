@@ -1,6 +1,6 @@
 package abstractprocessbenchmarkgrails
 
-class Task {
+class Task implements Comparable {
     
     Process process
     int sequence
@@ -20,6 +20,10 @@ class Task {
         return "${description} (${sequence})"
     }
     
+    public int compareTo(def other) {
+        return sequence <=> other?.sequence // <=> is the compareTo operator in groovy
+    }
+
 //    static mapping = {
 //        sort "sequence"
 //    }     

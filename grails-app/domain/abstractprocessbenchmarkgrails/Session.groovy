@@ -8,6 +8,7 @@ class Session {
     String description
     
     //static hasMany = [sessionOwners:User]   
+    static hasMany = [results:Result]  
     
     static constraints = {
     }

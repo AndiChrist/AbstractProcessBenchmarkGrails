@@ -23,8 +23,4 @@ class Task implements Comparable {
     public int compareTo(def other) {
         return sequence <=> other?.sequence // <=> is the compareTo operator in groovy
     }
-
-//    static mapping = {
-//        sort "sequence"
-//    }     
 }

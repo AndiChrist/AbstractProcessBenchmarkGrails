@@ -1,5 +1,6 @@
 
 <%@ page import="abstractprocessbenchmarkgrails.Session" %>
+<%@ page import="abstractprocessbenchmarkgrails.Result" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -82,19 +83,21 @@
                                                                   <th><g:message code="session.process.tasks.role.label" default="Role" /></th>
                                                                   <th><g:message code="session.process.tasks.system.label" default="System" /></th>
                                                                   <th><g:message code="session.process.tasks.media.label" default="Media" /></th>
-                                                                  <th><g:message code="session.process.tasks.view.label" default="View" /></th>    
+                                                                  <th><g:message code="session.process.tasks.view.label" default="View" /></th>
+                                                                  <th><g:message code="session.result" default="Result" /></th>
                                                           </tr>
                                                   </thead>
                                                   <tbody>
                                                    <g:each in="${sessionInstance?.process?.tasks}" status="i" var="task">
                                                           <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-                                                                  <td><g:link action="show" id="${task.id}">${fieldValue(bean: task, field: "description")}</g:link></td>
+                                                                  <td><g:link action="show" controller="task" id="${task.id}">${fieldValue(bean: task, field: "description")}</g:link></td>
                                                                   <td>${fieldValue(bean: task, field: "sequence")}</td>
                                                                   <td>${fieldValue(bean: task, field: "taskOwner")}</td>
                                                                   <td>${fieldValue(bean: task, field: "role")}</td>
                                                                   <td>${fieldValue(bean: task, field: "system")}</td>
                                                                   <td>${fieldValue(bean: task, field: "media")}</td>
                                                                   <td>${fieldValue(bean: task, field: "view")}</td>
+                                                                  <td><span style="color:red">${Result.findByTaskAndSession(task, sessionInstance).duration}</span></td>
                                                           </tr>
                                                   </g:each>
                                                   </tbody>

@@ -21,8 +21,4 @@ class Process {
     String toString() {
         return "${alias}: ${description}"
     }
-    
-//    Task sortTaskList() {
-//        return tasks.listOrderBySequence()
-//    }
 }

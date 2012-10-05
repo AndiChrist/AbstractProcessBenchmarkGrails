@@ -24,4 +24,22 @@ class Session {
         }
         return tested
     }
+    
+    boolean hasAnyUntested() {
+        println("r: " + results)
+        if (results == null)
+            return false
+            
+        if (results?.size() == 0)
+            return false
+            
+        boolean tested = true
+
+        results?.each() { 
+            println("t: " + tested)
+            tested = tested.and(it?.duration > 0)
+        }
+        println("return: " + tested)
+        return tested
+    }
 }

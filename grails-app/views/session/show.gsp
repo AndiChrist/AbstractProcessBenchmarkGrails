@@ -39,7 +39,7 @@
 				<li class="fieldcontain">
 					<span id="description-label" class="property-label"><g:message code="session.description.label" default="Description" /></span>
 					
-						<span class="property-value" aria-labelledby="description-label"><g:fieldValue bean="${sessionInstance}" field="description"/> --- Tested: ${sessionInstance.isTested()}</span>
+						<span class="property-value" aria-labelledby="description-label"><g:fieldValue bean="${sessionInstance}" field="description"/></span>
 					
 				</li>
 				</g:if>
@@ -115,7 +115,7 @@
                             <g:form>
                                     <fieldset class="buttons">
                                             <g:hiddenField name="id" value="${sessionInstance?.id}" />
-                                            <g:if test="${!sessionInstance?.isTested()}">
+                                            <g:if test="${!sessionInstance?.hasAnyUntested()}">
                                             <g:link class="edit" action="edit" id="${sessionInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
                                             </g:if>
                                             <g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />

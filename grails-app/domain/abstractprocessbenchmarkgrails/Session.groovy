@@ -16,4 +16,20 @@ class Session {
     String toString(){
         return "${description}"
     }
+    
+    boolean isTested() {
+        boolean tested = false
+        results.each() { 
+            tested = tested.or(it?.duration > 0)
+        }
+        return tested
+    }
+    
+    boolean isFullyUntested() {
+        boolean tested = false
+        results.each() { 
+            tested = tested.or(it?.duration > 0)
+        }
+        return tested
+    }
 }

@@ -39,7 +39,7 @@
 				<li class="fieldcontain">
 					<span id="description-label" class="property-label"><g:message code="session.description.label" default="Description" /></span>
 					
-						<span class="property-value" aria-labelledby="description-label"><g:fieldValue bean="${sessionInstance}" field="description"/></span>
+						<span class="property-value" aria-labelledby="description-label"><g:fieldValue bean="${sessionInstance}" field="description"/> --- Tested: ${sessionInstance.isTested()}</span>
 					
 				</li>
 				</g:if>
@@ -97,8 +97,8 @@
                                                                   <td>${fieldValue(bean: task, field: "system")}</td>
                                                                   <td>${fieldValue(bean: task, field: "media")}</td>
                                                                   <td>${fieldValue(bean: task, field: "view")}</td>
-                                                                  <td><span style="color:red">${Result.findByTaskAndSession(task, sessionInstance).duration}</span></td>
-                                                          </tr>
+                                                                  <% def duration = Result.findByTaskAndSession(task, sessionInstance)?.duration %>
+                                                                  <td><span style="color:${duration > 0 ? 'green' : 'red'}">${duration}</span></td>                                                          </tr>
                                                   </g:each>
                                                   </tbody>
                                           </table>

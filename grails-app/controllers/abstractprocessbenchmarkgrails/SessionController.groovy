@@ -87,9 +87,10 @@ class SessionController {
         
     // update existing entry
     def update(Long id, Long version) {
-        println("UPDATE")
-        
+        println("UPDATE: " + id + " # " + version)
+
         def sessionInstance = Session.get(id)
+        
         // do magic HERE
         // 1. look after Process and its Tasks
         // 2. for each task: create result
@@ -97,8 +98,17 @@ class SessionController {
         def process = Process.get(params.process.id)
         def tasks = process.tasks
         tasks.each() {
-            def result = new Result()
-            result.task = it
+            def result = Result.findByTaskAndSession(it, sessionInstance)
+            Integer newValue = params.sessionInstance.get("result[" + it.id + "]") as Integer
+            
+            // null or equal?
+            if (newValue == null || newValue == result.duration)
+                return
+                
+            // set to new value
+            result.duration = newValue
+            
+            // save
             if (!result.save(flush: true)) {
                 render(view: "create", model: [sessionInstance: sessionInstance])
                 return

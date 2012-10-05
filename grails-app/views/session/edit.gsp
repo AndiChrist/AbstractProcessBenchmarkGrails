@@ -1,4 +1,5 @@
 <%@ page import="abstractprocessbenchmarkgrails.Session" %>
+<%@ page import="abstractprocessbenchmarkgrails.Result" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -39,11 +40,59 @@
 				<fieldset class="form">
 					<g:render template="form"/>
 				</fieldset>
+				<g:if test="${sessionInstance?.process?.tasks}">
+                                  <div id="list-session" class="content scaffold-list" role="main">
+                                          <h1><g:message code="default.list.label" args="['Task']" /></h1>
+                                          <table>
+                                                  <thead>
+                                                          <tr>
+                                                                  <g:sortableColumn property="description" title="${message(code: 'session.process.tasks.description.label', default: 'Description')}" />
+                                                                  <th><g:message code="session.process.tasks.sequence.label" default="Sequence" /></th>
+                                                                  <th><g:message code="session.process.tasks.taskOwner.label" default="Task Owner" /></th>
+                                                                  <th><g:message code="session.process.tasks.role.label" default="Role" /></th>
+                                                                  <th><g:message code="session.process.tasks.system.label" default="System" /></th>
+                                                                  <th><g:message code="session.process.tasks.media.label" default="Media" /></th>
+                                                                  <th><g:message code="session.process.tasks.view.label" default="View" /></th>
+                                                                  <th><g:message code="session.result" default="Result" /></th>
+                                                          </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                   <g:each in="${sessionInstance?.process?.tasks}" status="i" var="task">
+                                                          <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+                                                                  <td><g:link action="show" controller="task" id="${task.id}">${fieldValue(bean: task, field: "description")}</g:link></td>
+                                                                  <td>${fieldValue(bean: task, field: "sequence")}</td>
+                                                                  <td>${fieldValue(bean: task, field: "taskOwner")}</td>
+                                                                  <td>${fieldValue(bean: task, field: "role")}</td>
+                                                                  <td>${fieldValue(bean: task, field: "system")}</td>
+                                                                  <td>${fieldValue(bean: task, field: "media")}</td>
+                                                                  <td>${fieldValue(bean: task, field: "view")}</td>
+                                                                  <% def duration = Result.findByTaskAndSession(task, sessionInstance)?.duration %>
+                                                                  <td>
+                                                                  <g:if test="${duration <= 0}">
+                                                                      <g:textField name="sessionInstance.result[${task.id}]" value="${duration}"/>
+                                                                  </g:if>
+                                                                  <g:else>
+                                                                      <span style="color:red">${duration}</span>
+                                                                  </g:else>
+                                                                  </td>
+                                                                  
+                                                          </tr>
+                                                  </g:each>
+                                                  </tbody>
+                                          </table>
+                                          <!--
+                                          <div class="pagination">
+                                                  <g:paginate total="{sessionInstanceTotal}" />
+                                          </div>
+                                          //-->
+                                  </div>
+				</g:if>
+
 				<fieldset class="buttons">
 					<g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" />
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
-			</g:form>
+			</g:form>                        
 		</div>
 	</body>
 </html>

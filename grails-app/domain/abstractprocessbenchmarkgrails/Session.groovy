@@ -20,13 +20,12 @@ class Session {
     boolean isTested() {
         boolean tested = false
         results.each() { 
-            tested = tested.or(it?.duration > 0)
+            tested = tested.or(it?.endTime - it?.startTime > 0)
         }
         return tested
     }
     
     boolean hasAnyUntested() {
-        println("r: " + results)
         if (results == null)
             return false
             
@@ -36,10 +35,8 @@ class Session {
         boolean tested = true
 
         results?.each() { 
-            println("t: " + tested)
-            tested = tested.and(it?.duration > 0)
+            tested = tested.and(it?.endTime - it?.startTime > 0)
         }
-        println("return: " + tested)
         return tested
     }
 }

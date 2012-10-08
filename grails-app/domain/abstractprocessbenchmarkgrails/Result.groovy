@@ -2,7 +2,8 @@ package abstractprocessbenchmarkgrails
 
 class Result {
 
-    int duration
+    Long startTime
+    Long endTime
     Task task
     Session session
     //static belongsTo = Session

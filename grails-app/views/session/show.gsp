@@ -89,16 +89,21 @@
                                       </thead>
                                       <tbody>
                                        <g:each in="${sessionInstance?.process?.tasks}" status="i" var="task">
-                                              <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-                                                      <td><g:link action="show" controller="task" id="${task.id}">${fieldValue(bean: task, field: "description")}</g:link></td>
-                                                      <td>${fieldValue(bean: task, field: "sequence")}</td>
-                                                      <td>${fieldValue(bean: task, field: "taskOwner")}</td>
-                                                      <td>${fieldValue(bean: task, field: "role")}</td>
-                                                      <td>${fieldValue(bean: task, field: "system")}</td>
-                                                      <td>${fieldValue(bean: task, field: "media")}</td>
-                                                      <td>${fieldValue(bean: task, field: "view")}</td>
-                                                      <% def duration = Result.findByTaskAndSession(task, sessionInstance)?.duration %>
-                                                      <td><span style="color:${duration > 0 ? 'green' : 'red'}">${duration}</span></td>                                                          </tr>
+                                            <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+                                                    <td><g:link action="show" controller="task" id="${task.id}">${fieldValue(bean: task, field: "description")}</g:link></td>
+                                                    <td>${fieldValue(bean: task, field: "sequence")}</td>
+                                                    <td>${fieldValue(bean: task, field: "taskOwner")}</td>
+                                                    <td>${fieldValue(bean: task, field: "role")}</td>
+                                                    <td>${fieldValue(bean: task, field: "system")}</td>
+                                                    <td>${fieldValue(bean: task, field: "media")}</td>
+                                                    <td>${fieldValue(bean: task, field: "view")}</td>
+                                                    <% def duration = Result.findByTaskAndSession(task, sessionInstance)?.endTime - Result.findByTaskAndSession(task, sessionInstance)?.startTime ?: 0
+                                                       def iconName = duration > 0 ? 'tick_green' : (duration == 0 ? 'cross_red' : 'traffic_cone')
+                                                    %>
+                                                    <td>
+                                                      <img src="${resource(dir: 'images/skin', file: iconName + '.png')}"/>
+                                                    </td>                                                          
+                                            </tr>
                                       </g:each>
                                       </tbody>
                               </table>

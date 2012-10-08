@@ -66,13 +66,19 @@
                                                                   <td>${fieldValue(bean: task, field: "system")}</td>
                                                                   <td>${fieldValue(bean: task, field: "media")}</td>
                                                                   <td>${fieldValue(bean: task, field: "view")}</td>
-                                                                  <% def duration = Result.findByTaskAndSession(task, sessionInstance)?.duration %>
+                                                                  <% def duration = Result.findByTaskAndSession(task, sessionInstance)?.endTime - Result.findByTaskAndSession(task, sessionInstance)?.startTime %>
                                                                   <td>
                                                                   <g:if test="${duration <= 0}">
-                                                                      <g:textField name="sessionInstance.result[${task.id}]" value="${duration}"/>
+                                                                      <!-- g:textField name="sessionInstance.result[${task.id}]" value="${duration}"/-->
+                                                                      <g:if test="${duration == 0}">
+                                                                        <g:link action="startTask" controller="result" params="[taskId: task.id, sessionId: sessionInstance.id]"><img src="${resource(dir: 'images/skin', file: 'icon_run.png')}"/></g:link>
+                                                                      </g:if>
+                                                                      <g:else>
+                                                                        <g:link action="stopTask" controller="result"  params="[taskId: task.id, sessionId: sessionInstance.id]"><img src="${resource(dir: 'images/skin', file: 'icon_stop.png')}"/></g:link>
+                                                                      </g:else>
                                                                   </g:if>
                                                                   <g:else>
-                                                                      <span style="color:red">${duration}</span>
+                                                                      <span style="color:red">${duration/1000} sec.</span>
                                                                   </g:else>
                                                                   </td>
                                                                   

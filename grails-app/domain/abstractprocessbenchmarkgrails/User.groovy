@@ -8,6 +8,7 @@ class User {
     String password
     Role role
 
+    // m:n relation to Domain
     static hasMany = [domains: Domain]
     static belongsTo = Domain
 

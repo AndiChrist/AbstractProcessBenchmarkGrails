@@ -20,6 +20,7 @@ class Task implements Comparable {
         return "${description} (${sequence})"
     }
     
+    // comparator for task sorting
     public int compareTo(def other) {
         return sequence <=> other?.sequence // <=> is the compareTo operator in groovy
     }

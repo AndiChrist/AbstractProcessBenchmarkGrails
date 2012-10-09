@@ -28,7 +28,7 @@ class ResultController {
             return
         }
         
-        redirect(controller:"session", action:"edit", id: params.sessionId)
+        redirect(controller:"session", action:"show", id: params.sessionId)
         return
     }
     
@@ -44,7 +44,7 @@ class ResultController {
             return
         }
         
-        redirect(controller:"session", action:"edit", id: params.sessionId)
+        redirect(controller:"session", action:"show", id: params.sessionId)
         return
     }
 }

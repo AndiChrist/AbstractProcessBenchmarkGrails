@@ -7,7 +7,7 @@ class Session {
     User sessionOwner
     String description
     
-    //static hasMany = [sessionOwners:User]   
+    // 1:n relation to Result 
     static hasMany = [results:Result]  
     
     static constraints = {
@@ -17,6 +17,7 @@ class Session {
         return "${description}"
     }
     
+    // if any result is "tested" the session itself is in a "tested" state
     boolean isTested() {
         boolean tested = false
         results.each() { 
@@ -25,6 +26,7 @@ class Session {
         return tested
     }
     
+    // is there any untested result left?
     boolean hasAnyUntested() {
         if (results == null)
             return false

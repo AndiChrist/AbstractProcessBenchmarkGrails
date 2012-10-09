@@ -10,6 +10,7 @@ class Process {
     
     static belongsTo = [domain:Domain]
     
+    // sorting of tasks by sequence numbers
     static fetchMode = [tasks: "eager"]
     static mapping = {
         tasks sort:'sequence'

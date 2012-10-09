@@ -70,6 +70,23 @@
 					
 				</li>
 				</g:if>
+                          
+                                <% 
+                                  def durations = []
+                                  sessionInstance?.results.each { 
+                                    def d = it.endTime - it.startTime 
+                                    durations << d
+                                  } 
+                                %>
+				<g:if test="${durations.sum() > 0}">
+				<li class="fieldcontain">
+					<span id="startDate-label" class="property-label"><g:message code="session.xxx.label" default="Gesamtdauer" /></span>
+					
+						<span class="property-value" aria-labelledby="startDate-label">${durations.sum() / 1000} sec.</span>
+					
+				</li>
+				</g:if>
+                          
 			</ol>
                         <g:if test="${sessionInstance?.process?.tasks}">
                           <div id="list-session" class="content scaffold-list" role="main">

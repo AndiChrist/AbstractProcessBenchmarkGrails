@@ -57,6 +57,7 @@
                                                           </tr>
                                                   </thead>
                                                   <tbody>
+                                                   <% def oldTask %>
                                                    <g:each in="${sessionInstance?.process?.tasks}" status="i" var="task">
                                                           <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
                                                                   <td><g:link action="show" controller="task" id="${task.id}">${fieldValue(bean: task, field: "description")}</g:link></td>
@@ -66,23 +67,44 @@
                                                                   <td>${fieldValue(bean: task, field: "system")}</td>
                                                                   <td>${fieldValue(bean: task, field: "media")}</td>
                                                                   <td>${fieldValue(bean: task, field: "view")}</td>
-                                                                  <% def duration = Result.findByTaskAndSession(task, sessionInstance)?.endTime - Result.findByTaskAndSession(task, sessionInstance)?.startTime %>
+                                                                  <% 
+                                                                    def result = Result.findByTaskAndSession(task, sessionInstance)
+                                                                    def prevResult = oldTask ? Result.findByTaskAndSession(oldTask, sessionInstance) : null
+                                                                    def duration = result ? result.endTime - result.startTime : 0                                                                    
+                                                                  %>
                                                                   <td>
-                                                                  <g:if test="${duration <= 0}">
-                                                                      <!-- g:textField name="sessionInstance.result[${task.id}]" value="${duration}"/-->
-                                                                      <g:if test="${duration == 0}">
-                                                                        <g:link action="startTask" controller="result" params="[taskId: task.id, sessionId: sessionInstance.id]"><img src="${resource(dir: 'images/skin', file: 'icon_run.png')}"/></g:link>
+                                                                      <g:if test="${oldTask}">
+                                                                        <g:if test="${prevResult.endTime > 0}">
+                                                                          <g:if test="${duration == 0}">
+                                                                            <g:link action="startTask" controller="result" params="[taskId: task.id, sessionId: sessionInstance.id]"><img src="${resource(dir: 'images/skin', file: 'icon_run.png')}"/></g:link>
+                                                                          </g:if>
+                                                                          <g:if test="${duration < 0}">
+                                                                            <g:link action="stopTask" controller="result"  params="[taskId: task.id, sessionId: sessionInstance.id]"><img src="${resource(dir: 'images/skin', file: 'icon_stop.png')}"/></g:link>
+                                                                          </g:if>
+                                                                          <g:if test="${duration > 0}">
+                                                                            <span style="color:red">${duration/1000} sec.</span>
+                                                                          </g:if>
+                                                                        </g:if>
                                                                       </g:if>
                                                                       <g:else>
-                                                                        <g:link action="stopTask" controller="result"  params="[taskId: task.id, sessionId: sessionInstance.id]"><img src="${resource(dir: 'images/skin', file: 'icon_stop.png')}"/></g:link>
+                                                                        <g:if test="${result.endTime}">
+                                                                          <span style="color:red">${duration/1000} sec.</span>
+                                                                        </g:if>
+                                                                        <g:else>
+                                                                          <g:if test="${duration == 0}">
+                                                                            <g:link action="startTask" controller="result" params="[taskId: task.id, sessionId: sessionInstance.id]"><img src="${resource(dir: 'images/skin', file: 'icon_run.png')}"/></g:link>
+                                                                          </g:if>
+                                                                          <g:if test="${duration < 0}">
+                                                                            <g:link action="stopTask" controller="result"  params="[taskId: task.id, sessionId: sessionInstance.id]"><img src="${resource(dir: 'images/skin', file: 'icon_stop.png')}"/></g:link>
+                                                                          </g:if>
+                                                                          <g:if test="${duration > 0}">
+                                                                            <span style="color:red">${duration/1000} sec.</span>
+                                                                          </g:if>                                                                        </g:else>
                                                                       </g:else>
-                                                                  </g:if>
-                                                                  <g:else>
-                                                                      <span style="color:red">${duration/1000} sec.</span>
-                                                                  </g:else>
                                                                   </td>
                                                                   
                                                           </tr>
+                                                          <% oldTask = task %>
                                                   </g:each>
                                                   </tbody>
                                           </table>

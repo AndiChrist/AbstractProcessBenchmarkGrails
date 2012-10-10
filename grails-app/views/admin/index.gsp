@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta name="layout" content="main"/>
-		<title>Welcome to Grails</title>
+		<title>Welcome to Abstract Process Benchmark Application</title>
 		<style type="text/css" media="screen">
 			#status {
 				background-color: #eee;
@@ -115,7 +115,7 @@
 				<h2>Available Controllers:</h2>
 				<ul>
 					<g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
-						<li class="controller"><g:link controller="${c.logicalPropertyName}">${c.fullName}</g:link></li>
+						<li class="controller"><g:link controller="${c.logicalPropertyName}">${c.shortName}</g:link></li>
 					</g:each>
 				</ul>
 			</div>

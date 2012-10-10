@@ -41,6 +41,8 @@
 						<g:sortableColumn property="startDate" title="${message(code: 'session.startDate.label', default: 'Start Date')}" />
                                                 
                                                 <th><g:message code="session.xxxx.label" default="Duration" /></th>
+                                                
+                                                <th><g:message code="session.xxxx.label" default="Progress" /></th>
 					
 					</tr>
 				</thead>
@@ -69,6 +71,11 @@
                                                 <g:else>
                                                   <td>-</td>
                                                 </g:else>
+                                                <%
+                                                def size = sessionInstance.results.size() 
+                                                def rate = ((((size > 0) ? sessionInstance.testingRate()?.countTested / size : 0) * 100) as Integer) + "%"
+                                                %>
+                                                <td>${rate}</td>
 					</tr>
 				</g:each>
 				</tbody>

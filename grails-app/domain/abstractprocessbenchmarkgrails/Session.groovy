@@ -17,17 +17,8 @@ class Session {
         return "${description}"
     }
     
-    // if any result is "tested" the session itself is in a "tested" state
+    // all Results are tested (session is READY)
     boolean isTested() {
-        boolean tested = false
-        results.each() { 
-            tested = tested.or(it?.endTime - it?.startTime > 0)
-        }
-        return tested
-    }
-    
-    // is there any untested result left?
-    boolean hasAnyUntested() {
         if (results == null)
             return false
             
@@ -35,10 +26,66 @@ class Session {
             return false
             
         boolean tested = true
-
-        results?.each() { 
-            tested = tested.and(it?.endTime - it?.startTime > 0)
+        results.each() { 
+            tested = tested.and(it.isTested())
         }
         return tested
+    }
+    
+    // is there any untested result left?
+    boolean isTesting() {
+        if (results == null)
+            return false
+            
+        if (results?.size() == 0)
+            return false
+            
+        boolean untested = false
+
+        results?.each() { 
+            untested = untested.or(it.isTesting())
+        }
+        return untested
+    }
+    
+    // if no result in in testing progress (completely untested)
+    boolean isUntested() {
+        if (results == null)
+            return true
+            
+        if (results?.size() == 0)
+            return true
+            
+        boolean progress = true
+        
+        results.each() { 
+            progress = progress.and(it.isUntested())
+        }
+        
+        return progress
+    }
+    
+    def testingRate() {
+        if (results == null)
+            return null
+            
+        if (results?.size() == 0)
+            return null
+            
+        int countTested = 0
+        int countTesting = 0
+        int countUntested = 0
+        
+        results.each() { 
+            if (it.isTested()) countTested++
+            if (it.isTesting()) countTesting++
+            if (it.isUntested()) countUntested++
+        }
+        
+        [
+            countTested:countTested, 
+            countTesting:countTesting, 
+            countUntested:countUntested,
+        ]
     }
 }

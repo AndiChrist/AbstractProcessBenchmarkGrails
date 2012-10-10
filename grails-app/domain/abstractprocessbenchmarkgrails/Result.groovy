@@ -25,4 +25,17 @@ class Result {
             
         return "${output}"
     }
+    
+    boolean isTesting() {
+        return (endTime - startTime < 0)
+    }
+    
+    boolean isTested() {
+        return (endTime - startTime > 0)
+    }
+    
+    boolean isUntested() {
+        return (endTime - startTime == 0)
+    }
+    
 }

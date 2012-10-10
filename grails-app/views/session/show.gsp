@@ -229,7 +229,7 @@
                             <g:form>
                                     <fieldset class="buttons">
                                             <g:hiddenField name="id" value="${sessionInstance?.id}" />
-                                            <g:if test="${!sessionInstance?.hasAnyUntested()}">
+                                            <g:if test="${!sessionInstance?.isTesting()}">
                                             <g:link class="edit" action="edit" id="${sessionInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
                                             </g:if>
                                             <g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />

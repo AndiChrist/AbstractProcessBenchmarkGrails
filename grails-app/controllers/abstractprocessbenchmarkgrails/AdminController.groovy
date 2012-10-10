@@ -2,6 +2,8 @@ package abstractprocessbenchmarkgrails
 
 class AdminController{
     def beforeInterceptor = [action:this.&auth]
+    
+    // any actions as "admin" is for admins only
     def auth() {
         if(!session.user) {
             redirect(controller:"user", action:"login")
@@ -9,7 +11,7 @@ class AdminController{
         }
         if(!session.user.admin){
             flash.message = "Tsk tsk—admins only"
-            redirect(controller:"race", action:"list")
+            redirect(controller:"session", action:"list")
             return false
         }
     }

@@ -5,8 +5,10 @@ class ProcessController {
     static scaffold = true
 
     def clone(params) {
-        
+        // fetch original process
         def origProcessInstance = Process.get(params.id)
+        
+        // create new process
         def processInstance = new Process(params)
                 
         // clone "process" object
@@ -14,6 +16,7 @@ class ProcessController {
         processInstance.description = origProcessInstance.description
         processInstance.domain = origProcessInstance.domain
 
+        // save new process instance
         if (!processInstance.save(flush: true)) {
             render(view: "create", model: [processInstance: processInstance])
             return

@@ -9,6 +9,8 @@ class DomainController {
     def index() {
         redirect(action: "list")
     }
+    
+    // go to login page if session has no user
     def auth() {
         if(!session.user) {
             redirect(controller:"user", action:"login")

@@ -10,6 +10,7 @@ class Result {
     static constraints = {
     }
     
+    // show durations of results, if available
     String toString(){
         def output = session.description + ": "
         

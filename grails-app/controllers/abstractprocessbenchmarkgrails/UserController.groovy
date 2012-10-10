@@ -10,15 +10,10 @@ class UserController {
         redirect(action: "list", params: params)
     }
     
-//    def beforeInterceptor = [action:this.&auth]
-//   
-//    def auth() {
-//        if(!session.user) {
-//            redirect(controller:"user", action:"login")
-//            return false
-//        }
-//    }
     
+    /*
+     * automatic generated methods
+     */
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         [userInstanceList: User.list(params), userInstanceTotal: User.count()]
@@ -109,6 +104,9 @@ class UserController {
         }
     }
     
+    /*
+     * login / logout / auth section
+     */
     def login = { }
     def logout = {
         flash.message = "Goodbye ${session.user.firstName}"

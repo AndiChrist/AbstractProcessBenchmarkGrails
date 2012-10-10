@@ -17,6 +17,7 @@ class SessionController {
         }
     }
 
+    // show only sessions of domains, in which the current user is member of
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
 
@@ -47,8 +48,7 @@ class SessionController {
                     
                 }
             }
-            // only my sessions
-            //results = Session.findAllBySessionOwner(User.get(session.user.id))
+
         } else {
             results = Session.findAll()
         }

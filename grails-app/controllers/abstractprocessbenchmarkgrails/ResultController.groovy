@@ -16,6 +16,7 @@ class ResultController {
         }
     }
     
+    // action for START button in session's show view
     def startTask() {
         def task = Task.get(params.taskId)
         def session = Session.get(params.sessionId)
@@ -32,6 +33,7 @@ class ResultController {
         return
     }
     
+    // action for STOP button in session's show view
     def stopTask(Long id) {
         def task = Task.get(params.taskId)
         def session = Session.get(params.sessionId)

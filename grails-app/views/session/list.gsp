@@ -39,6 +39,8 @@
 						<th><g:message code="session.sessionOwner.label" default="Session Owner" /></th>
 					
 						<g:sortableColumn property="startDate" title="${message(code: 'session.startDate.label', default: 'Start Date')}" />
+                                                
+                                                <th><g:message code="session.xxxx.label" default="Duration" /></th>
 					
 					</tr>
 				</thead>
@@ -53,7 +55,20 @@
 						<td>${fieldValue(bean: sessionInstance, field: "sessionOwner")}</td>
 					
 						<td><g:formatDate date="${sessionInstance.startDate}" /></td>
-					
+                                                <% 
+                                                  def durations = []
+                                                  sessionInstance?.results.each { 
+                                                    def d = it.endTime - it.startTime 
+                                                    if (d > 0)
+                                                      durations << d
+                                                  } 
+                                                %>
+                                                <g:if test="${durations.sum() > 0}">
+                                                  <td>${(durations.sum() ?: 0) / 1000} sec.</td>
+                                                </g:if>
+                                                <g:else>
+                                                  <td>-</td>
+                                                </g:else>
 					</tr>
 				</g:each>
 				</tbody>

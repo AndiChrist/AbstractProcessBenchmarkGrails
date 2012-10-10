@@ -106,9 +106,8 @@
                 //-->
 		<div id="page-body" role="main">
 			<h1>Welcome to Abstract Process Benchmark Application</h1>
-			<p>Congratulations, you have successfully started your first Grails application! At the moment
-			   this is the default page, feel free to modify it to either redirect to a controller or display whatever
-			   content you may choose. Below is a list of controllers that are currently deployed in this application,
+			<p>Congratulations, you have successfully started your Abstract Process Benchmark Application! At the moment
+			   this is the admin's default page, feel free to modify the data. Below is a list of controllers that are currently deployed in this application,
 			   click on each to execute its default action:</p>
 
 			<div id="controller-list" role="navigation">

@@ -70,160 +70,114 @@
 					
 				</li>
 				</g:if>
-                          
-                                <% 
-                                  def durations = []
-                                  sessionInstance?.results.each { 
-                                    def d = it.endTime - it.startTime 
-                                    if (d > 0)
-                                      durations << d
-                                  } 
-                                %>
-				<g:if test="${durations.sum() > 0}">
+
+                                <li class="fieldcontain">
+					<span id="startDate-label" class="property-label"><g:message code="session.xxxx.label" default="Fortschritt" /></span>
+					
+						<span class="property-value" aria-labelledby="startDate-label">${sessionInstance.progress()} %</span>
+					
+				</li>
+                                
+				<g:if test="${sessionInstance.durations().sum() > 0}">
 				<li class="fieldcontain">
 					<span id="startDate-label" class="property-label"><g:message code="session.xxx.label" default="Gesamtdauer" /></span>
 					
-						<span class="property-value" aria-labelledby="startDate-label">${durations.sum() / 1000} sec.</span>
+						<span class="property-value" aria-labelledby="startDate-label">${sessionInstance.durations().sum() / 1000} sec.</span>
 					
 				</li>
 				</g:if>
                           
 			</ol>
-                        <!--
                         <g:if test="${sessionInstance?.process?.tasks}">
                           <div id="list-session" class="content scaffold-list" role="main">
-                              <h1><g:message code="default.list.label" args="['Task']" /></h1>
-                              <table>
-                                      <thead>
-                                              <tr>
-                                                      <g:sortableColumn property="description" title="${message(code: 'session.process.tasks.description.label', default: 'Description')}" />
-                                                      <th><g:message code="session.process.tasks.sequence.label" default="Sequence" /></th>
-                                                      <th><g:message code="session.process.tasks.taskOwner.label" default="Task Owner" /></th>
-                                                      <th><g:message code="session.process.tasks.role.label" default="Role" /></th>
-                                                      <th><g:message code="session.process.tasks.system.label" default="System" /></th>
-                                                      <th><g:message code="session.process.tasks.media.label" default="Media" /></th>
-                                                      <th><g:message code="session.process.tasks.view.label" default="View" /></th>
-                                                      <th><g:message code="session.result" default="Result" /></th>
-                                              </tr>
-                                      </thead>
-                                      <tbody>
-                                       <g:each in="${sessionInstance?.process?.tasks}" status="i" var="task">
-                                            <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-                                                    <td><g:link action="show" controller="task" id="${task.id}">${fieldValue(bean: task, field: "description")}</g:link></td>
-                                                    <td>${fieldValue(bean: task, field: "sequence")}</td>
-                                                    <td>${fieldValue(bean: task, field: "taskOwner")}</td>
-                                                    <td>${fieldValue(bean: task, field: "role")}</td>
-                                                    <td>${fieldValue(bean: task, field: "system")}</td>
-                                                    <td>${fieldValue(bean: task, field: "media")}</td>
-                                                    <td>${fieldValue(bean: task, field: "view")}</td>
-                                                    <% 
-                                                       def result = Result.findByTaskAndSession(task, sessionInstance)
-                                                       def duration = result ? result.endTime - result.startTime : 0 
-                                                       def iconName = duration > 0 ? 'tick_green' : (duration == 0 ? 'cross_red' : 'traffic_cone')
-                                                    %>
-                                                    <td>
-                                                      <img src="${resource(dir: 'images/skin', file: iconName + '.png')}"/>&nbsp;
-                                                      <g:if test="${duration > 0}">
-                                                        <span style="color:red">${duration/1000} sec.</span>
-                                                      </g:if>
-                                                    </td>                                                          
-                                            </tr>
-                                      </g:each>
-                                      </tbody>
-                              </table>
+                                  <h1><g:message code="default.list.label" args="['Task']" /></h1>
+                                  <table>
+                                          <thead>
+                                                  <tr>
+                                                          <g:sortableColumn property="description" title="${message(code: 'session.process.tasks.description.label', default: 'Description')}" />
+                                                          <th><g:message code="session.process.tasks.sequence.label" default="Sequence" /></th>
+                                                          <th><g:message code="session.process.tasks.taskOwner.label" default="Task Owner" /></th>
+                                                          <th><g:message code="session.process.tasks.role.label" default="Role" /></th>
+                                                          <th><g:message code="session.process.tasks.system.label" default="System" /></th>
+                                                          <th><g:message code="session.process.tasks.media.label" default="Media" /></th>
+                                                          <th><g:message code="session.process.tasks.view.label" default="View" /></th>
+                                                          <th><g:message code="session.result" default="Result" /></th>
+                                                  </tr>
+                                          </thead>
+                                          <tbody>
+                                           <% def oldTask %>
+                                           <g:each in="${sessionInstance?.process?.tasks}" status="i" var="task">
+                                                  <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+                                                          <td><g:link action="show" controller="task" id="${task.id}">${fieldValue(bean: task, field: "description")}</g:link></td>
+                                                          <td>${fieldValue(bean: task, field: "sequence")}</td>
+                                                          <td>${fieldValue(bean: task, field: "taskOwner")}</td>
+                                                          <td>${fieldValue(bean: task, field: "role")}</td>
+                                                          <td>${fieldValue(bean: task, field: "system")}</td>
+                                                          <td>${fieldValue(bean: task, field: "media")}</td>
+                                                          <td>${fieldValue(bean: task, field: "view")}</td>
+                                                          <% 
+                                                            def result = Result.findByTaskAndSession(task, sessionInstance)
+                                                            def prevResult = oldTask ? Result.findByTaskAndSession(oldTask, sessionInstance) : null
+                                                            def duration = result ? result.endTime - result.startTime : 0   
+                                                            def iconName = duration > 0 ? 'tick_green' : (duration == 0 ? 'cross_red' : 'traffic_cone')
+                                                          %>
+                                                          <td>
+                                                              <g:if test="${oldTask}">
+                                                                <g:if test="${prevResult.endTime > 0}">
+
+                                                                  <g:if test="${!session?.user?.admin}">
+                                                                    <g:if test="${duration == 0}">
+                                                                      <g:link action="startTask" controller="result" params="[taskId: task.id, sessionId: sessionInstance.id]"><img src="${resource(dir: 'images/skin', file: 'icon_run.png')}"/></g:link>
+                                                                    </g:if>
+                                                                    <g:if test="${duration < 0}">
+                                                                      <g:link action="stopTask" controller="result"  params="[taskId: task.id, sessionId: sessionInstance.id]"><img src="${resource(dir: 'images/skin', file: 'icon_stop.png')}"/></g:link>
+                                                                    </g:if>
+                                                                  </g:if>
+                                                                  <g:else>
+                                                                    <g:if test="${duration < 0}">
+                                                                      <img src="${resource(dir: 'images/skin', file: iconName + '.png')}"/>
+                                                                    </g:if>
+                                                                  </g:else>
+
+                                                                  <g:if test="${duration > 0}">
+                                                                    <span style="color:red">${duration/1000} sec.</span>
+                                                                  </g:if>
+                                                                </g:if>
+                                                              </g:if>
+
+                                                              <g:else>
+                                                                <g:if test="${result.endTime}">
+                                                                  <span style="color:red">${duration/1000} sec.</span>
+                                                                </g:if>
+                                                                <g:else>
+                                                                  <g:if test="${!session?.user?.admin}">
+                                                                    <g:if test="${duration == 0}">
+                                                                      <g:link action="startTask" controller="result" params="[taskId: task.id, sessionId: sessionInstance.id]"><img src="${resource(dir: 'images/skin', file: 'icon_run.png')}"/></g:link>
+                                                                    </g:if>
+                                                                    <g:if test="${duration < 0}">
+                                                                      <g:link action="stopTask" controller="result"  params="[taskId: task.id, sessionId: sessionInstance.id]"><img src="${resource(dir: 'images/skin', file: 'icon_stop.png')}"/></g:link>
+                                                                    </g:if>
+                                                                  </g:if>  
+                                                                  <g:else>
+                                                                    <g:if test="${duration < 0}">
+                                                                      <img src="${resource(dir: 'images/skin', file: iconName + '.png')}"/>
+                                                                    </g:if>  
+                                                                  </g:else>
+
+                                                                  <g:if test="${duration > 0}">
+                                                                    <span style="color:red">${duration/1000} sec.</span>
+                                                                  </g:if> 
+                                                                </g:else>
+                                                              </g:else>
+                                                          </td>
+
+                                                  </tr>
+                                                  <% oldTask = task %>
+                                          </g:each>
+                                          </tbody>
+                                  </table>
                           </div>
                         </g:if>
-                        //-->
-				<g:if test="${sessionInstance?.process?.tasks}">
-                                  <div id="list-session" class="content scaffold-list" role="main">
-                                          <h1><g:message code="default.list.label" args="['Task']" /></h1>
-                                          <table>
-                                                  <thead>
-                                                          <tr>
-                                                                  <g:sortableColumn property="description" title="${message(code: 'session.process.tasks.description.label', default: 'Description')}" />
-                                                                  <th><g:message code="session.process.tasks.sequence.label" default="Sequence" /></th>
-                                                                  <th><g:message code="session.process.tasks.taskOwner.label" default="Task Owner" /></th>
-                                                                  <th><g:message code="session.process.tasks.role.label" default="Role" /></th>
-                                                                  <th><g:message code="session.process.tasks.system.label" default="System" /></th>
-                                                                  <th><g:message code="session.process.tasks.media.label" default="Media" /></th>
-                                                                  <th><g:message code="session.process.tasks.view.label" default="View" /></th>
-                                                                  <th><g:message code="session.result" default="Result" /></th>
-                                                          </tr>
-                                                  </thead>
-                                                  <tbody>
-                                                   <% def oldTask %>
-                                                   <g:each in="${sessionInstance?.process?.tasks}" status="i" var="task">
-                                                          <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-                                                                  <td><g:link action="show" controller="task" id="${task.id}">${fieldValue(bean: task, field: "description")}</g:link></td>
-                                                                  <td>${fieldValue(bean: task, field: "sequence")}</td>
-                                                                  <td>${fieldValue(bean: task, field: "taskOwner")}</td>
-                                                                  <td>${fieldValue(bean: task, field: "role")}</td>
-                                                                  <td>${fieldValue(bean: task, field: "system")}</td>
-                                                                  <td>${fieldValue(bean: task, field: "media")}</td>
-                                                                  <td>${fieldValue(bean: task, field: "view")}</td>
-                                                                  <% 
-                                                                    def result = Result.findByTaskAndSession(task, sessionInstance)
-                                                                    def prevResult = oldTask ? Result.findByTaskAndSession(oldTask, sessionInstance) : null
-                                                                    def duration = result ? result.endTime - result.startTime : 0   
-                                                                    def iconName = duration > 0 ? 'tick_green' : (duration == 0 ? 'cross_red' : 'traffic_cone')
-                                                                  %>
-                                                                  <td>
-                                                                      <g:if test="${oldTask}">
-                                                                        <g:if test="${prevResult.endTime > 0}">
-                                                                              
-                                                                          <g:if test="${!session?.user?.admin}">
-                                                                            <g:if test="${duration == 0}">
-                                                                              <g:link action="startTask" controller="result" params="[taskId: task.id, sessionId: sessionInstance.id]"><img src="${resource(dir: 'images/skin', file: 'icon_run.png')}"/></g:link>
-                                                                            </g:if>
-                                                                            <g:if test="${duration < 0}">
-                                                                              <g:link action="stopTask" controller="result"  params="[taskId: task.id, sessionId: sessionInstance.id]"><img src="${resource(dir: 'images/skin', file: 'icon_stop.png')}"/></g:link>
-                                                                            </g:if>
-                                                                          </g:if>
-                                                                          <g:else>
-                                                                            <g:if test="${duration < 0}">
-                                                                              <img src="${resource(dir: 'images/skin', file: iconName + '.png')}"/>
-                                                                            </g:if>
-                                                                          </g:else>
-                                                                          
-                                                                          <g:if test="${duration > 0}">
-                                                                            <span style="color:red">${duration/1000} sec.</span>
-                                                                          </g:if>
-                                                                        </g:if>
-                                                                      </g:if>
-                                                                  
-                                                                      <g:else>
-                                                                        <g:if test="${result.endTime}">
-                                                                          <span style="color:red">${duration/1000} sec.</span>
-                                                                        </g:if>
-                                                                        <g:else>
-                                                                          <g:if test="${!session?.user?.admin}">
-                                                                            <g:if test="${duration == 0}">
-                                                                              <g:link action="startTask" controller="result" params="[taskId: task.id, sessionId: sessionInstance.id]"><img src="${resource(dir: 'images/skin', file: 'icon_run.png')}"/></g:link>
-                                                                            </g:if>
-                                                                            <g:if test="${duration < 0}">
-                                                                              <g:link action="stopTask" controller="result"  params="[taskId: task.id, sessionId: sessionInstance.id]"><img src="${resource(dir: 'images/skin', file: 'icon_stop.png')}"/></g:link>
-                                                                            </g:if>
-                                                                          </g:if>  
-                                                                          <g:else>
-                                                                            <g:if test="${duration < 0}">
-                                                                              <img src="${resource(dir: 'images/skin', file: iconName + '.png')}"/>
-                                                                            </g:if>  
-                                                                          </g:else>
-                                                                          
-                                                                          <g:if test="${duration > 0}">
-                                                                            <span style="color:red">${duration/1000} sec.</span>
-                                                                          </g:if> 
-                                                                        </g:else>
-                                                                      </g:else>
-                                                                  </td>
-                                                                  
-                                                          </tr>
-                                                          <% oldTask = task %>
-                                                  </g:each>
-                                                  </tbody>
-                                          </table>
-                                  </div>
-				</g:if>
 
                         <g:if test="${session?.user?.admin}">
                             <g:form>

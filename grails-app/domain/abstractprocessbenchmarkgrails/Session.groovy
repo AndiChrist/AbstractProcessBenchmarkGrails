@@ -88,4 +88,22 @@ class Session {
             countUntested:countUntested,
         ]
     }
+    
+    def progress() {
+        def size = results.size() 
+        def rate = (((size > 0) ? testingRate()?.countTested / size : 0) * 100) as Integer
+        
+        return rate
+    }
+    
+    def durations() {
+        def durations = []
+        results.each { 
+          def d = it.endTime - it.startTime 
+          if (d > 0)
+            durations << d
+        }
+        
+        return durations
+    }
 }

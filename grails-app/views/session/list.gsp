@@ -57,25 +57,14 @@
 						<td>${fieldValue(bean: sessionInstance, field: "sessionOwner")}</td>
 					
 						<td><g:formatDate date="${sessionInstance.startDate}" /></td>
-                                                <% 
-                                                  def durations = []
-                                                  sessionInstance?.results.each { 
-                                                    def d = it.endTime - it.startTime 
-                                                    if (d > 0)
-                                                      durations << d
-                                                  } 
-                                                %>
-                                                <g:if test="${durations.sum() > 0}">
-                                                  <td>${(durations.sum() ?: 0) / 1000} sec.</td>
+
+                                                <g:if test="${sessionInstance.durations().sum() > 0}">
+                                                  <td>${(sessionInstance.durations().sum() ?: 0) / 1000} sec.</td>
                                                 </g:if>
                                                 <g:else>
                                                   <td>-</td>
                                                 </g:else>
-                                                <%
-                                                def size = sessionInstance.results.size() 
-                                                def rate = ((((size > 0) ? sessionInstance.testingRate()?.countTested / size : 0) * 100) as Integer) + "%"
-                                                %>
-                                                <td>${rate}</td>
+                                                <td>${sessionInstance.progress()} %</td>
 					</tr>
 				</g:each>
 				</tbody>

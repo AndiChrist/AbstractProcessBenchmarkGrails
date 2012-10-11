@@ -625,3 +625,10 @@ a.skip {
 	background-repeat: no-repeat;
 	text-indent: 25px;
 } 
+
+.nav a.back {
+	background-image: url(../images/skin/back.png);
+	background-position: 0.7em center;
+	background-repeat: no-repeat;
+	text-indent: 25px;
+}

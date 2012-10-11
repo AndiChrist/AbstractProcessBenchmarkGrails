@@ -13,6 +13,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/' + (session?.user.role.description == abstractprocessbenchmarkgrails.Role.ADMIN ? 'admin/index' : ''))}"><g:message code="default.home.label"/></a></li>
+                                <li><a class="back" href="javascript:history.back();"><g:message code="default.back.label" default="Back" /></a></li>
                                 <g:if test="${session?.user}">
                                     <li><g:link class="logout" controller="user" action="logout"><g:message code="default.logout.label" args="[entityName]" /></g:link></li>
                                 </g:if>
@@ -72,7 +73,7 @@
 				</g:if>
 
                                 <li class="fieldcontain">
-					<span id="startDate-label" class="property-label"><g:message code="session.xxxx.label" default="Fortschritt" /></span>
+					<span id="startDate-label" class="property-label"><g:message code="default.progress.label" default="Progress" /></span>
 					
 						<span class="property-value" aria-labelledby="startDate-label">${sessionInstance.progress()} %</span>
 					
@@ -80,7 +81,7 @@
                                 
 				<g:if test="${sessionInstance.durations().sum() > 0}">
 				<li class="fieldcontain">
-					<span id="startDate-label" class="property-label"><g:message code="session.xxx.label" default="Gesamtdauer" /></span>
+					<span id="startDate-label" class="property-label"><g:message code="default.duration.label" default="Duration" /></span>
 					
 						<span class="property-value" aria-labelledby="startDate-label">${sessionInstance.durations().sum() / 1000} sec.</span>
 					

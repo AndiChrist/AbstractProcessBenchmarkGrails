@@ -14,6 +14,7 @@
                   <div class="nav" role="navigation">
                           <ul>
                                   <li><a class="home" href="${createLink(uri: '/' + (session?.user.role.description == abstractprocessbenchmarkgrails.Role.ADMIN ? 'admin/index' : ''))}"><g:message code="default.home.label"/></a></li>
+                                  <li><a class="back" href="javascript:history.back();"><g:message code="default.back.label" default="Back" /></a></li>
                                   <g:if test="${session?.user}">
                                       <li><g:link class="logout" controller="user" action="logout"><g:message code="default.logout.label" args="[entityName]" /></g:link></li>
                                   </g:if>

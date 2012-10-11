@@ -14,6 +14,11 @@ class Task implements Comparable {
     View view
     String description
     
+    // didn't work
+    //static constraints = {
+    //    process(editable:false)
+    //}
+    
     static hasMany = [results:Result]   
     
     String toString(){
